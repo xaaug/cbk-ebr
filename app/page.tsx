@@ -18,7 +18,6 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { addEntry } from "@/convex/entries"
 import { usePathname } from "next/navigation"
 
 export default function Page() {

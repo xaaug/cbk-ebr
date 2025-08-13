@@ -42,17 +42,22 @@ export function AddEntryForm() {
       setQty(1);
       setPrice(0);
       setPaid(true);
-    } catch (err: any) {
+    }catch (err: unknown) {
       console.error("Add entry error:", err);
-
-      if (err?.response?.status === 400) {
-        toast.error("Invalid data", { description: "Please check your input values." });
-      } else if (err?.response?.status === 500) {
-        toast.error("Server error", { description: "Something went wrong on our end." });
+    
+      if (err instanceof Error) {
+        if (err.message.toLowerCase().includes("invalid")) {
+          toast.error("Invalid data", { description: "Please check your input values." });
+        } else if (err.message.toLowerCase().includes("server")) {
+          toast.error("Server error", { description: "Something went wrong on our end." });
+        } else {
+          toast.error("Error", { description: err.message });
+        }
       } else {
-        toast.error("Network error", { description: "Please check your internet connection." });
+        toast.error("Error", { description: "An unknown error occurred." });
       }
-    } finally {
+    }
+    finally {
       setLoading(false);
     }
   }
