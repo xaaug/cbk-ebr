@@ -38,13 +38,9 @@ export default function RootLayout({
       <body
         className={`${arimo.variable} ${mulish.variable} ${spaceMono.variable} antialiased`}
       >
-        <Toaster  position="top-center" // Move toast to the top
-        toastOptions={{
-          style: {
-            background: "#121212", // custom background
-            color: "white",        // text color
-            borderRadius: "8px",
-          },}} />
+        <Toaster
+  position="top-center"
+/>
         <ConvexClientProvider>{children}</ConvexClientProvider>
       </body>
     </html>

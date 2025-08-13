@@ -6,14 +6,18 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function DayTotal() {
   const totals = useQuery(api.entries.getTodayTotals, {});
   const [visible, setVisible] = useState(true);
-
+  
+  
+  const isLoading = totals === undefined;
   const totalSpent = totals?.totalSpent ?? 0;
   const totalQty = totals?.totalQty ?? 0;
   const unpaidTotal = totals?.unpaidTotal ?? 0;
+  console.log(totals)
 
   return (
     <Card className="w-full lgmax-w-md mx-auto mt-6 border border-gray-200 shadow-sm rounded-xl bg-white font-sans">
@@ -31,27 +35,45 @@ export function DayTotal() {
         </Button>
       </CardHeader>
 
-      <CardContent className="space-y-2 ">
-        {/* Main: Quantity */}
-        <p className="text-4xl font-bold font-serif text-gray-900">
-          {visible ? `${totalQty}` : "••"}
-        </p>
-        <p className="text-sm text-gray-500 font-medium tracking-wide font-sans">
-          Total Quantity
-        </p>
+      <CardContent className="space-y-2">
+        {/* Quantity */}
+        {isLoading ? (
+          <Skeleton className="h-10 w-20" />
+        ) : (
+          <>
+            <p className="text-4xl font-bold font-serif text-gray-900">
+              {visible ? `${totalQty}` : "••"}
+            </p>
+            <p className="text-sm text-gray-500 font-medium tracking-wide font-sans">
+              Total Quantity
+            </p>
+          </>
+        )}
 
-        {/* Secondary: Spent */}
+        {/* Total Spent */}
         <div className="pt-3 border-t border-gray-100">
-          <p className="text-2xl font-bold text-gray-800 font-serif">
-            {visible ? `${totalSpent.toLocaleString()} KES` : "••••"}
-          </p>
-          <p className="text-sm text-gray-500">Total Spent</p>
+          {isLoading ? (
+            <Skeleton className="h-7 w-28" />
+          ) : (
+            <>
+              <p className="text-2xl font-bold text-gray-800 font-serif">
+                {visible ? `${totalSpent.toLocaleString()} KES` : "••••"}
+              </p>
+              <p className="text-sm text-gray-500">Total Spent</p>
+            </>
+          )}
         </div>
 
+        {/* Unpaid Total */}
         <div className="pt-3 border-t border-gray-100">
-          <p className="text-base text-red-700 font-bold font-serif">
-            {visible ? `${unpaidTotal.toLocaleString()} KES` : "••••"}
-          </p></div>
+          {isLoading ? (
+            <Skeleton className="h-5 w-20" />
+          ) : (
+            <p className="text-base text-red-700 font-bold font-serif">
+              {visible ? `${unpaidTotal.toLocaleString()} KES` : "••••"}
+            </p>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

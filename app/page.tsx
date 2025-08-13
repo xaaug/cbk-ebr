@@ -3,6 +3,7 @@
 import { AddEntryForm } from "@/components/AddForm"
 import { AppSidebar } from "@/components/app-sidebar"
 import { DayTotal } from "@/components/DayTotal"
+import { EntriesTable } from "@/components/EntriesTable"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -51,7 +52,7 @@ export default function Page() {
         <div className="flex flex-1 flex-col gap-4 p-4">
          <DayTotal />
          <AddEntryForm />
-          <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
+         <EntriesTable />
         </div>
       </SidebarInset>
     </SidebarProvider>
