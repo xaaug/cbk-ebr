@@ -48,11 +48,18 @@ export const getTodayTotals = query(async ({ db }) => {
     return createdAt >= today.getTime() && createdAt < tomorrow.getTime();
   });
 
-  const totalSpent = todayEntries.reduce((sum, entry) => sum + entry.price * entry.qty, 0);
+  // const totalSpent = todayEntries.reduce((sum, entry) => sum + entry.price * entry.qty, 0);
+
+  const totalSpent = todayEntries
+  .filter((entry) => entry.paid)
+  .reduce((sum, entry) => sum + entry.price * entry.qty, 0);
+
+
   const totalQty = todayEntries.reduce((sum, entry) => sum + entry.qty, 0);
   const unpaidTotal = todayEntries
     .filter((entry) => !entry.paid)
     .reduce((sum, entry) => sum + entry.price * entry.qty, 0);
+
 
   return { totalSpent, totalQty, unpaidTotal, entries: todayEntries };
 });
