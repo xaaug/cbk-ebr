@@ -67,3 +67,15 @@ export const togglePaid = mutation({
     await db.patch(id, { paid: !entry.paid });
   },
 });
+
+
+export const deleteEntry = mutation({
+  args: {
+    id: v.id("entries"), // Convex ensures this is a valid Id
+  },
+  handler: async ({ db }, { id }) => {
+    const entry = await db.get(id);
+    if (!entry) throw new Error("Entry not found");
+    await db.delete(id);
+  },
+});
