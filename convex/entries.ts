@@ -44,7 +44,7 @@ export const getTodayTotals = query(async ({ db }) => {
   const entries = await db.query("entries").collect();
 
   const todayEntries = entries.filter((entry) => {
-    const createdAt = new Date(entry.createdAt).getTime(); // correctly parse ISO string
+    const createdAt = new Date(entry.createdAt).getTime();  
     return createdAt >= today.getTime() && createdAt < tomorrow.getTime();
   });
 
@@ -78,7 +78,7 @@ export const togglePaid = mutation({
 
 export const deleteEntry = mutation({
   args: {
-    id: v.id("entries"), // Convex ensures this is a valid Id
+    id: v.id("entries"), 
   },
   handler: async ({ db }, { id }) => {
     const entry = await db.get(id);
