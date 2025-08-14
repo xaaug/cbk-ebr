@@ -9,8 +9,8 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
-const commonQuantities = [1, 5, 10, 20];
-const commonPrices = [300, 350, 400, 500];
+const commonQuantities = [1, 2,3,4,5,6,7,8,9, 10];
+const commonPrices = [450,500,550,600,700,750,800,900,1000,1100];
 
 export function AddEntryForm() {
   const addEntry = useMutation(api.entries.addEntry);
@@ -70,6 +70,12 @@ export function AddEntryForm() {
         </CardTitle>
       </CardHeader>
       <CardContent>
+         <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-4 flex items-center justify-between">
+    <span className="text-sm font-medium text-gray-600">Total</span>
+    <span className="text-lg font-bold font-serif text-gray-900">
+      {qty && price ? (qty * price).toLocaleString() + " KES" : "—"}
+    </span>
+  </div>
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Quantity */}
           <div>
