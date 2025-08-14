@@ -18,7 +18,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Cross, Trash, X } from "lucide-react";
+import {  X } from "lucide-react";
 
 export function EntriesTable() {
   const entries = useQuery(api.entries.getTodayEntries, {});
