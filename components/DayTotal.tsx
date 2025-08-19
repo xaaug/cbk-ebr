@@ -42,7 +42,7 @@ export function DayTotal() {
         ) : (
           <>
             <p className="text-4xl font-bold font-serif text-gray-900">
-              {visible ? `${totalQty}` : "••"}
+              {visible ? `${totalQty}` : "**"}
             </p>
             <p className="text-sm text-gray-500 font-medium tracking-wide font-sans">
               Total Quantity
@@ -57,7 +57,7 @@ export function DayTotal() {
           ) : (
             <>
               <p className="text-2xl font-bold text-gray-800 font-serif">
-                {visible ? `${totalSpent.toLocaleString()} KES` : "••••"}
+                {visible ? `${totalSpent.toLocaleString()} KES` : "****"}
               </p>
               <p className="text-sm text-gray-500">Total Spent</p>
             </>
@@ -70,7 +70,7 @@ export function DayTotal() {
             <Skeleton className="h-5 w-20" />
           ) : (
             <p className="text-base text-red-700 font-bold font-serif">
-              {visible ? `${unpaidTotal.toLocaleString()} KES` : "••••"}
+              {visible ? `${unpaidTotal.toLocaleString()} KES` : "****"}
             </p>
           )}
         </div>

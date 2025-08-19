@@ -7,6 +7,7 @@ import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/s
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { AppSidebar } from "@/components/app-sidebar";
+import BottomNav from "@/components/BottomNav";
 
 const arimo = Arimo({
   variable: "--font-arimo",
@@ -67,12 +68,12 @@ export default function RootLayout({
             </BreadcrumbList>
           </Breadcrumb>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
+        <div className="p-4">
         <ConvexClientProvider>{children}</ConvexClientProvider>
         </div>
       </SidebarInset>
     </SidebarProvider>
-        
+        <BottomNav />
       </body>
     </html>
   );
