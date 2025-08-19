@@ -15,13 +15,7 @@ import { Trash } from "lucide-react";
 export function EntriesHistory({ date }: { date?: string }) {
   const togglePaid = useMutation(api.entries.togglePaid);
 
-  function useEntries(date?: string) {
-    return date
-      ? useQuery(api.entries.getEntriesByDate, { date })
-      : useQuery(api.entries.getTodayEntries, {});
-  }
-
-  const entries = useEntries(date);
+  const entries = useQuery(api.entries.getEntriesByDate, { date: date || new Date().toISOString() });
 
   const isLoading = entries === undefined;
   const isEmpty = entries?.length === 0;
