@@ -62,6 +62,8 @@ export default function RootLayout({
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+              <p>Chicken Barrons</p></BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </header>
