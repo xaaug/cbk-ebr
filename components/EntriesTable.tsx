@@ -18,12 +18,24 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import {  X } from "lucide-react";
+import { X } from "lucide-react";
+
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 
 export function EntriesTable() {
   const entries = useQuery(api.entries.getTodayEntries, {});
   const togglePaid = useMutation(api.entries.togglePaid);
-  const deleteEntry = useMutation(api.entries.deleteEntry); // ✅ client mutation
+  const deleteEntry = useMutation(api.entries.deleteEntry);
 
   const today = new Date().toLocaleDateString("en-KE", {
     weekday: "long",
@@ -100,13 +112,32 @@ export function EntriesTable() {
                       </Button>
                     </TableCell>
                     <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => deleteEntry({ id: entry._id })}
-                      >
-                        <X className="h-2 w-2 text-red-500"/>
-                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <X className="h-2 w-2 text-red-500" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Delete entry?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. The entry will be permanently removed.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-red-600 hover:bg-red-700"
+                              onClick={() => deleteEntry({ id: entry._id })}
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </TableCell>
                   </TableRow>
                 ))}
