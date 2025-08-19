@@ -23,6 +23,10 @@ const data = {
         {
           title: "Home",
           url: "/",
+        }, 
+        {
+          title: "History",
+          url: "/history",
         }
       ],
     },

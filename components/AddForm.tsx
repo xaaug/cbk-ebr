@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 const commonQuantities = [1, 2,3,4,5,6,7,8,9, 10];
-const commonPrices = [450,500,550,600,700,750,800,900,1000,1100];
+const commonPrices = [450,500,550,600,650,700,750,800,900,1000,1100];
 
 export function AddEntryForm() {
   const addEntry = useMutation(api.entries.addEntry);

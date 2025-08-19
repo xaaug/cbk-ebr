@@ -86,3 +86,47 @@ export const deleteEntry = mutation({
     await db.delete(id);
   },
 });
+
+export const getHistoryDays = query({
+  args: {},
+  handler: async (ctx) => {
+    const entries = await ctx.db.query("entries").collect();
+
+    // group by date
+    const grouped: Record<string, any[]> = {};
+    for (const e of entries) {
+      const date = new Date(e.createdAt).toLocaleDateString("en-KE");
+      if (!grouped[date]) grouped[date] = [];
+      grouped[date].push(e);
+    }
+
+    // aggregate per day
+    return Object.entries(grouped).map(([date, list]) => {
+      const totalQty = list.reduce((sum, e) => sum + e.qty, 0);
+      const totalPrice = list.reduce((sum, e) => sum + e.price, 0);
+      const paidCount = list.filter((e) => e.paid).length;
+      const unpaidCount = list.length - paidCount;
+
+      return {
+        date,
+        totalQty,
+        totalPrice,
+        paidCount,
+        unpaidCount,
+      };
+    });
+  },
+});
+
+
+export const getEntriesByDate = query({
+  args: { date: v.string() }, // expects "Aug 18, 2025" style (toLocaleDateString)
+  handler: async (ctx, args) => {
+    const entries = await ctx.db.query("entries").collect();
+
+    return entries.filter(
+      (e) =>
+        new Date(e.createdAt).toLocaleDateString("en-KE") === args.date
+    );
+  },
+});
