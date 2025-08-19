@@ -1,6 +1,6 @@
-// components/EntriesTable.tsx
 "use client";
 
+import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import {
@@ -8,35 +8,54 @@ import {
   TableHeader, TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Trash } from "lucide-react";
+import { X } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 
 export function EntriesHistory({ date }: { date?: string }) {
+  const [sortMode, setSortMode] = useState<"default" | "price" | "qty">("default");
+
   const togglePaid = useMutation(api.entries.togglePaid);
+  const deleteEntry = useMutation(api.entries.deleteEntry);
 
   const entries = useQuery(api.entries.getEntriesByDate, { date: date || new Date().toISOString() });
 
   const isLoading = entries === undefined;
   const isEmpty = entries?.length === 0;
 
-  const title = date
-    ? date
-    : new Date().toLocaleDateString("en-KE", {
-        weekday: "long",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
+  const sortedEntries = entries
+    ? [...entries].sort((a, b) => {
+        if (sortMode === "price") return b.price - a.price;
+        if (sortMode === "qty") return b.qty - a.qty;
+        return 0; // default = no sort
+      })
+    : [];
+
+  const cycleSort = () => {
+    setSortMode((prev) =>
+      prev === "default" ? "price" : prev === "price" ? "qty" : "default"
+    );
+  };
+
   return (
-    <Card className="mt-6">
-      <CardHeader>
-        <CardTitle className="font-serif text-xl">{title}</CardTitle>
-        <CardDescription>
-          {date ? `Entries for ${date}` : "Entries recorded today"}
-        </CardDescription>
-      </CardHeader>
+    <Card className="mt-2">
       <CardContent>
+        <div className="flex justify-end items-center mb-2">
+          <Button variant="outline" size="sm" onClick={cycleSort}>
+            Sort: {sortMode === "default" ? "Default" : sortMode === "price" ? "Price" : "Qty"}
+          </Button>
+        </div>
         <Table>
           <TableHeader>
             <TableRow>
@@ -54,8 +73,8 @@ export function EntriesHistory({ date }: { date?: string }) {
                   <TableCell className="text-right"><Skeleton className="h-4 w-12" /></TableCell>
                   <TableCell className="text-center"><Skeleton className="h-3 w-3 rounded-full" /></TableCell>
                   <TableCell className="text-right">
-                    <Button variant="destructive" size="icon" disabled>
-                      <Trash className="h-4 w-4" />
+                    <Button variant="ghost" size="icon" disabled>
+                      <X className="h-2 w-2 text-red-500" />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -70,7 +89,7 @@ export function EntriesHistory({ date }: { date?: string }) {
                 </TableCell>
               </TableRow>
             ) : (
-              entries.map((entry) => (
+              sortedEntries.map((entry) => (
                 <TableRow
                   key={entry._id}
                   className="group odd:bg-muted/40 hover:bg-muted/70 transition-colors"
@@ -91,13 +110,32 @@ export function EntriesHistory({ date }: { date?: string }) {
                     </Button>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button
-                      variant="destructive"
-                      size="icon"
-                      className="opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <Trash className="h-4 w-4" />
-                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <X className="h-2 w-2 text-red-500" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Delete entry?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. The entry will be permanently removed.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            className="bg-red-600 hover:bg-red-700"
+                            onClick={() => deleteEntry({ id: entry._id })}
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>  
                   </TableCell>
                 </TableRow>
               ))

@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function HistoryPage() {
   const days = useQuery(api.entries.getHistoryDays, {});
+  
 
   if (!days) {
     return (
@@ -43,11 +44,10 @@ export default function HistoryPage() {
         });
   }
 
-  console.log(days)
-
 
   return (
     <div className="space-y-4">
+        <h2 className="text-2xl font-bold font-serif">History</h2>
       {days.reverse().map((day) => (
         <Link
           key={day.date}
@@ -60,21 +60,16 @@ export default function HistoryPage() {
                 {formatDate(day.date)}
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-1 text-sm text-muted-foreground">
+            <CardContent className="space-y-1 text-sm text-muted-foreground font-sans">
               <p>
-                <span className="font-medium text-foreground">Total Qty:</span>{" "}
+                <span className="font-sans font-medium text-foreground">Total Qty:</span>{" "}
                 {day.totalQty}
               </p>
               <p>
-                <span className="font-medium text-foreground">Total Price:</span>{" "}
+                <span className="font-sans font-medium text-foreground">Total Price:</span>{" "}
                 KES {day.totalPrice}
               </p>
-              <p>
-                <span className="font-medium text-foreground">Paid:</span>{" "}
-                {day.paidCount} &nbsp;|&nbsp;
-                <span className="font-medium text-foreground">Unpaid:</span>{" "}
-                {day.unpaidCount}
-              </p>
+             
             </CardContent>
           </Card>
         </Link>

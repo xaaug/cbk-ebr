@@ -64,6 +64,42 @@ export const getTodayTotals = query(async ({ db }) => {
   return { totalSpent, totalQty, unpaidTotal, entries: todayEntries };
 });
 
+
+
+export const getDateTotals = query(async ({ db }, { date }: { date: string }) => {
+  // Parse "DD/MM/YYYY"
+  const [dayStr, monthStr, yearStr] = date.split("/");
+  const day = parseInt(dayStr, 10);
+  const month = parseInt(monthStr, 10) - 1; // JS months are 0-based
+  const year = parseInt(yearStr, 10);
+
+  const start = new Date(year, month, day, 0, 0, 0, 0);
+  const end = new Date(year, month, day + 1, 0, 0, 0, 0);
+
+  const entries = await db.query("entries").collect();
+
+  // Filter entries within this day
+  const dayEntries = entries.filter((entry) => {
+    const createdAt = new Date(entry.createdAt).getTime();
+    return createdAt >= start.getTime() && createdAt < end.getTime();
+  });
+
+  const totalSpent = dayEntries
+    .filter((entry) => entry.paid)
+    .reduce((sum, entry) => sum + entry.price * entry.qty, 0);
+
+  const totalQty = dayEntries.reduce((sum, entry) => sum + entry.qty, 0);
+
+  const unpaidTotal = dayEntries
+    .filter((entry) => !entry.paid)
+    .reduce((sum, entry) => sum + entry.price * entry.qty, 0);
+
+  return { totalSpent, totalQty, unpaidTotal, entries: dayEntries };
+});
+
+
+
+
 export const togglePaid = mutation({
   args: {
     id: v.id("entries"), 
@@ -92,35 +128,37 @@ export const getHistoryDays = query({
   handler: async (ctx) => {
     const entries = await ctx.db.query("entries").collect();
 
-    // group by date
     const grouped: Record<string, any[]> = {};
     for (const e of entries) {
-      const date = new Date(e.createdAt).toLocaleDateString("en-KE");
+      const d = new Date(e.createdAt);
+      const day = d.getDate().toString().padStart(2, "0");
+      const month = (d.getMonth() + 1).toString().padStart(2, "0");
+      const year = d.getFullYear();
+      const date = `${day}/${month}/${year}`;
+
       if (!grouped[date]) grouped[date] = [];
       grouped[date].push(e);
     }
 
-    // aggregate per day
     return Object.entries(grouped).map(([date, list]) => {
       const totalQty = list.reduce((sum, e) => sum + e.qty, 0);
-      const totalPrice = list.reduce((sum, e) => sum + e.price, 0);
+      const totalPrice = list.reduce((sum, e) => sum + e.price * e.qty, 0);
       const paidCount = list.filter((e) => e.paid).length;
-      const unpaidCount = list.length - paidCount;
 
       return {
-        date,
+        date, 
         totalQty,
         totalPrice,
-        paidCount,
-        unpaidCount,
+        paidCount
       };
     });
   },
 });
 
 
+
 export const getEntriesByDate = query({
-  args: { date: v.string() }, // expects "Aug 18, 2025" style (toLocaleDateString)
+  args: { date: v.string() }, 
   handler: async (ctx, args) => {
     const entries = await ctx.db.query("entries").collect();
 
