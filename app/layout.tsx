@@ -22,7 +22,7 @@ const mulish = Mulish({
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
   subsets: ["latin"],
-  weight: ["400", "700"], // optional
+  weight: ["400", "700"], 
 });
 
 export const metadata: Metadata = {
@@ -46,6 +46,7 @@ export default function RootLayout({
         <Toaster
   position="top-center"
 />
+<div className="lg:hidden">
 <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
@@ -71,9 +72,19 @@ export default function RootLayout({
         <div className="p-4">
         <ConvexClientProvider>{children}</ConvexClientProvider>
         </div>
+        
+
       </SidebarInset>
     </SidebarProvider>
+
         <BottomNav />
+        </div>
+
+        <div className="hidden lg:flex items-center justify-center p-6 bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-lg shadow-sm ">
+  <p className="text-blue-700 font-medium">
+    Visit the site on a phone or tablet
+  </p>
+</div>
       </body>
     </html>
   );

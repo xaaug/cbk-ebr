@@ -13,7 +13,8 @@ export default function HistoryDayPage() {
 
   return (
     <>
-    <DateSummary date={decodedDate} />
-    <EntriesHistory date={decodedDate} /></>
+<div className="pb-30">
+<DateSummary date={decodedDate} />
+<EntriesHistory date={decodedDate} /></div></>
   );
 }
