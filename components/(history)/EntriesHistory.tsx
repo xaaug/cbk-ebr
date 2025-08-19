@@ -15,11 +15,10 @@ import { Trash } from "lucide-react";
 export function EntriesHistory({ date }: { date?: string }) {
   const togglePaid = useMutation(api.entries.togglePaid);
 
-  // use correct query depending on prop
-  const entries = useQuery(
-    date ? api.entries.getEntriesByDate : api.entries.getTodayEntries,
-    date ? { date } : {}
-  );
+  const entries = date
+  ? useQuery(api.entries.getEntriesByDate, { date })
+  : useQuery(api.entries.getTodayEntries, {});
+
 
   const isLoading = entries === undefined;
   const isEmpty = entries?.length === 0;
