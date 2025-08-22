@@ -4,6 +4,7 @@ import Image from "next/image";
 export default function GreetingsCard() {
 
   const hour = new Date().getHours();
+  console.log(hour)
   const greeting =
     hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
