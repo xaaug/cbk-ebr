@@ -16,11 +16,9 @@ export default function QuickActions() {
         <a
           key={label}
           href={href}
-          className="group flex flex-col items-center justify-center rounded border border-gray-200 shadow-sm p-6 bg-white hover:shadow-lg hover:border-gray-300 active:scale-95 transition"
+          className="group flex flex- items-center justify-center rounded border border-gray-200 shadow-sm p-6 bg-white hover:shadow-lg hover:border-gray-300 active:scale-95 transition gap-2"
         >
-          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-3 group-hover:bg-primary/20 transition">
-            <Icon className="w-6 h-6 text-primary" />
-          </div>
+            <Icon className="w-5 h-5 text-primary" />
           <span className="text-sm font-serif font-medium text-gray-700 group-hover:text-gray-900">
             {label}
           </span>
