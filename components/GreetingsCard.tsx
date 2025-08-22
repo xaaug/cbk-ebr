@@ -6,7 +6,7 @@ export default function GreetingsCard() {
   const hour = new Date().getHours();
   console.log(hour)
   const greeting =
-    hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+    hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
 
   return(
     <>
