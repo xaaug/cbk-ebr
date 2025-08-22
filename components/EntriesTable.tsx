@@ -94,10 +94,10 @@ export function EntriesTable() {
               )
               : entries.map((entry) => (
                   <TableRow key={entry._id}>
-                    <TableCell className="font-serif font-semibold">
+                    <TableCell className="font-mono font-semibold">
                       {entry.qty}
                     </TableCell>
-                    <TableCell>{entry.price}</TableCell>
+                    <TableCell className="font-mono">{entry.price}</TableCell>
                     <TableCell>
                       <Button
                         variant="ghost"

@@ -1,18 +1,9 @@
-"use client";
-
-import { AddEntryForm } from "@/components/AddForm";
-import { DayTotal } from "@/components/DayTotal";
-import { EntriesTable } from "@/components/EntriesTable";
+import GreetingsCard from "@/components/GreetingsCard";
 
 export default function Page() {
-
-  return (
+  return(
     <>
-      <div className="flex flex-1 flex-col gap-4">
-        <DayTotal />
-        <AddEntryForm />
-        <EntriesTable />
-      </div>
+    <GreetingsCard />
     </>
-  );
+  )
 }

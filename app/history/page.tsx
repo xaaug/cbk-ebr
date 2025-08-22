@@ -46,7 +46,7 @@ export default function HistoryPage() {
 
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-30">
         <h2 className="text-2xl font-bold font-serif">History</h2>
       {days.reverse().map((day) => (
         <Link
