@@ -1,5 +1,9 @@
+
+
 export default function SalesPage() {
-    return(
-        <>Sales</>
-    )
+    return (
+        <div>
+            <h1>Add Sale</h1>
+        </div>
+    );
 }

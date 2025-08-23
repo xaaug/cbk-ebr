@@ -12,7 +12,7 @@ const actions = [
 export default function QuickActions() {
   return (
    <>
-   <h2 className="text-lg font-sans font-medium my-4">Quick Actions</h2>
+   <h2 className="text-lg font-serif font-semibold mb-4 mt-8">Quick Actions</h2>
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
       {actions.map(({ label, icon: Icon, href }) => (
         <a

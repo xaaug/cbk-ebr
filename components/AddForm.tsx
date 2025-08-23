@@ -65,7 +65,7 @@ export function AddEntryForm() {
   return (
     <Card className="w-full lg:max-w-md mx-auto mt-6 border border-gray-200 shadow-sm rounded-xl bg-white">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold tracking-tight text-gray-900">
+        <CardTitle className="text-lg font-serif font-semibold tracking-tight text-gray-900">
           Add New Entry
         </CardTitle>
       </CardHeader>
