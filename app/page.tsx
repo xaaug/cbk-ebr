@@ -4,6 +4,7 @@ import QuickActions from "@/components/QuickActions";
 export default function Page() {
   return(
     <>
+    
     <GreetingsCard />
     <QuickActions />
     </>
