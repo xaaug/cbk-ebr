@@ -5,7 +5,7 @@ import { PlusCircle, Building2, ShoppingCart, FileText } from "lucide-react";
 const actions = [
   { label: "Add Sale", icon: PlusCircle, href: "/sales/add" },
   { label: "Hotels", icon: Building2, href: "/hotels" },
-  { label: "Purchase", icon: ShoppingCart, href: "/purchases" },
+  { label: "Purchase", icon: ShoppingCart, href: "/purchase" },
   { label: "Invoices", icon: FileText, href: "/invoices" },
 ];
 

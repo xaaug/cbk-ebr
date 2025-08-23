@@ -87,7 +87,7 @@ export function AddEntryForm() {
                   type="button"
                   variant={qty === q ? "default" : "outline"}
                   onClick={() => setQty(q)}
-                  className={`rounded-full px-4 py-1 text-sm transition ${
+                  className={`rounded-full px-4 py-1 text-sm transition font-sans ${
                     qty === q
                       ? "bg-[#40E0D0] text-white hover:bg-[#3AC9BA]"
                       : "hover:border-[#40E0D0] hover:text-[#40E0D0]"
@@ -116,7 +116,7 @@ export function AddEntryForm() {
                   type="button"
                   variant={price === p ? "default" : "outline"}
                   onClick={() => setPrice(p)}
-                  className={`rounded-full px-4 py-1 text-sm transition ${
+                  className={`rounded-full px-4 py-1 text-sm transition font-sans ${
                     price === p
                       ? "bg-[#40E0D0] text-white hover:bg-[#3AC9BA]"
                       : "hover:border-[#40E0D0] hover:text-[#40E0D0]"
