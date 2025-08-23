@@ -9,7 +9,6 @@ import { api } from "@/convex/_generated/api";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DateSummary({ date }: { date?: string }) {
-  console.log(date)
     const [visible, setVisible] = useState(true);
     
     const totals = useQuery(api.entries.getDateTotals, { date: date || new Date().toISOString() });

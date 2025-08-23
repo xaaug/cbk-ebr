@@ -9,7 +9,7 @@ export default function Header() {
   const [showSearch, setShowSearch] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
+    <header className="sticky top-0 z-50 bg-white backdrop-blur-md shadow-sm">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold font-mono tracking-tight text-primary-foreground">
           Chicken Barrons
@@ -19,7 +19,7 @@ export default function Header() {
           onClick={() => setShowSearch(!showSearch)}
           className="p-2 rounded-full hover:bg-gray-100 transition"
         >
-          {showSearch ? <X size={18} /> : <Search size={18} />}
+          {showSearch ? <X size={18} className="text-gray-800"/> : <Search size={18} className="text-gray-800" />}
         </button>
       </div>
 
