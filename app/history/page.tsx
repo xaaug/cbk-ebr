@@ -1,79 +1,15 @@
-"use client";
-
-import Link from "next/link";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import CardButton from "@/components/CardButton";
+import SectionHeader from "@/components/SectionHeader";
+import { ReceiptText, ShoppingBag } from "lucide-react";
 
 export default function HistoryPage() {
-  const days = useQuery(api.entries.getHistoryDays, {});
-  
-
-  if (!days) {
-    return (
-      <div className="space-y-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <Card key={i}>
-            <CardHeader>
-              <Skeleton className="h-6 w-40 mb-2" />
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <Skeleton className="h-4 w-24" />
-              <Skeleton className="h-4 w-32" />
-              <Skeleton className="h-4 w-28" />
-              <Skeleton className="h-4 w-20" />
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    );
-  }
-
-  if (days.length === 0) return <p>No history found.</p>;
-  function formatDate(dateString: string) {
-    // Try parsing, fallback to original string
-    const parsed = new Date(dateString + "T00:00:00");
-    return isNaN(parsed.getTime())
-      ? dateString // fallback if invalid
-      : parsed.toLocaleDateString("en-KE", {
-          weekday: "long",
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
-  }
-
-
   return (
-    <div className="space-y-4 pb-30">
-        <h2 className="text-2xl font-bold font-serif">History</h2>
-      {days.reverse().map((day) => (
-        <Link
-          key={day.date}
-          href={`/history/${encodeURIComponent(day.date)}`}
-          className="block"
-        >
-          <Card className="hover:shadow-md hover:bg-muted/50 transition-all cursor-pointer">
-            <CardHeader>
-              <CardTitle className="font-serif font-bold text-lg">
-                {formatDate(day.date)}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-1 text-sm text-muted-foreground font-sans">
-              <p>
-                <span className="font-sans font-medium text-foreground">Total Qty:</span>{" "}
-                {day.totalQty}
-              </p>
-              <p>
-                <span className="font-sans font-medium text-foreground">Total Price:</span>{" "}
-                KES {day.totalPrice}
-              </p>
-             
-            </CardContent>
-          </Card>
-        </Link>
-      ))}
-    </div>
-  );
+<>
+<SectionHeader title="History" />
+<div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
+<CardButton label="Sales" icon={ReceiptText} href="/history/sales"/>
+<CardButton label="Purchases" icon={ShoppingBag} href="/history/purchases"/>
+</div >
+</>
+  )
 }

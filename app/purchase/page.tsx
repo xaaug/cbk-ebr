@@ -7,6 +7,8 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 function formatDate(date: Date) {
   const d = date.getDate().toString().padStart(2, "0");
@@ -31,6 +33,15 @@ export default function Page() {
   const average = totalQty > 0 ? (totalSpent + 9000) / totalQty : 0;
 
   return (
+     <>
+    <div className="flex justify-end mb-2">
+  <Button asChild variant="outline" size="sm">
+    <Link href="/history/purchases">
+      View History
+    </Link>
+  </Button>
+</div>
+
     <div className="flex flex-1 flex-col gap-4 pb-20">
       <DayTotal />
       <AddEntryForm />
@@ -53,6 +64,6 @@ export default function Page() {
       </Card>}
 
       <EntriesTable />
-    </div>
+    </div></>
   );
 }
