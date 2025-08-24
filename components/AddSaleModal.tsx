@@ -45,7 +45,7 @@ export function AddSaleModal() {
 
   // Convex
   const addSale = useMutation(api.sales.addSale);
-  const hotels = useQuery(api.hotels.list, {});
+  const hotels = useQuery(api.hotels.getHotels, {});
 
   // Form state
   const [customerType, setCustomerType] = useState<"hotel" | "individual">(

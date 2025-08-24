@@ -33,7 +33,16 @@ export default defineSchema({
   
     hotels: defineTable({
       name: v.string(),
-      contact: v.optional(v.string()),
-      createdAt: v.string(),
+      phone: v.string(),
+      balance: v.number(),
+      chickenPrice: v.number(),
+      createdAt: v.number(),
     }),
+  
+    payments: defineTable({
+      hotelId: v.id("hotels"),
+      amount: v.number(),
+      createdAt: v.number(),
+    }).index("by_hotel", ["hotelId"]),
+    
 });
