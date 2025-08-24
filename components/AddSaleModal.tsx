@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -83,7 +83,7 @@ export function AddSaleModal() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!date) return;
-  
+
     await addSale({
       customerType,
       hotelId: customerType === "hotel" ? hotelId : undefined,
@@ -97,14 +97,14 @@ export function AddSaleModal() {
       date: date.toISOString().slice(0, 10),
       createdAt: new Date().toISOString(),
     });
-  
-    resetForm(); 
+
+    resetForm();
     setOpen(false);
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>
         <Button
           variant="default"
           size="lg"
@@ -112,49 +112,58 @@ export function AddSaleModal() {
         >
           <Plus className="h-4 w-4" /> New Sale
         </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Sale</DialogTitle>
-        </DialogHeader>
+      </DrawerTrigger>
+      <DrawerContent className="p-0">
+       <div className="max-h-[80vh] overflow-y-auto p-4">
+       <DrawerHeader>
+          <DrawerTitle className="font-serif">Add Sale</DrawerTitle>
+        </DrawerHeader>
 
-        <form onSubmit={handleSave} className="space-y-4">
+        <form
+          onSubmit={handleSave}
+          className="space-y-4 w-full max-w-lg mx-auto"
+        >
           {/* Sale Type */}
           <div>
-  <Label className="mb-2 block">Sale Type</Label>
-  <RadioGroup
-    value={customerType}
-    onValueChange={(val: "hotel" | "individual") => setCustomerType(val)}
-    className="flex gap-3"
-  >
-    <Label
-      htmlFor="hotel"
-      className={cn(
-        "flex cursor-pointer items-center rounded-md border px-4 py-2 text-sm font-medium transition",
-        customerType === "hotel"
-          ? "border-primary bg-primary text-primary-foreground"
-          : "border-primary-foreground bg-background hover:bg-accent hover:text-accent-foreground"
-      )}
-    >
-      <RadioGroupItem value="hotel" id="hotel" className="sr-only" />
-      Hotel
-    </Label>
+            <Label className="mb-2 block">Sale Type</Label>
+            <RadioGroup
+              value={customerType}
+              onValueChange={(val: "hotel" | "individual") =>
+                setCustomerType(val)
+              }
+              className="flex gap-3"
+            >
+              <Label
+                htmlFor="hotel"
+                className={cn(
+                  "flex cursor-pointer items-center rounded-md border px-4 py-2 text-sm font-medium transition",
+                  customerType === "hotel"
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-primary-foreground bg-background hover:bg-accent hover:text-accent-foreground",
+                )}
+              >
+                <RadioGroupItem value="hotel" id="hotel" className="sr-only" />
+                Hotel
+              </Label>
 
-    <Label
-      htmlFor="individual"
-      className={cn(
-        "flex cursor-pointer items-center rounded-md border px-4 py-2 text-sm font-medium transition",
-        customerType === "individual"
-          ? "border-primary bg-primary text-primary-foreground"
-          : "border-primary-foreground bg-background hover:bg-accent hover:text-accent-foreground"
-      )}
-    >
-      <RadioGroupItem value="individual" id="individual" className="sr-only" />
-      Individual
-    </Label>
-  </RadioGroup>
-</div>
-
+              <Label
+                htmlFor="individual"
+                className={cn(
+                  "flex cursor-pointer items-center rounded-md border px-4 py-2 text-sm font-medium transition",
+                  customerType === "individual"
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-primary-foreground bg-background hover:bg-accent hover:text-accent-foreground",
+                )}
+              >
+                <RadioGroupItem
+                  value="individual"
+                  id="individual"
+                  className="sr-only"
+                />
+                Individual
+              </Label>
+            </RadioGroup>
+          </div>
 
           {/* Hotel or Individual */}
           {customerType === "hotel" ? (
@@ -202,7 +211,7 @@ export function AddSaleModal() {
                   type="button"
                   size="sm"
                   variant={quantity === q ? "default" : "outline"}
-                     className="rounded-full px-4 py-1 text-sm transition font-sans"
+                  className="rounded-full px-4 py-1 text-sm transition font-sans"
                   onClick={() => handleQtyPriceChange(q, unitPrice)}
                 >
                   {q}
@@ -247,9 +256,12 @@ export function AddSaleModal() {
           {/* Payment Status */}
           <div>
             <Label>Payment Status</Label>
-            <Select value={paymentStatus} onValueChange={(val) =>
-    setPaymentStatus(val as "paid" | "pending" | "partial")
-  }>
+            <Select
+              value={paymentStatus}
+              onValueChange={(val) =>
+                setPaymentStatus(val as "paid" | "pending" | "partial")
+              }
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
@@ -261,8 +273,8 @@ export function AddSaleModal() {
             </Select>
           </div>
 
-                {/* Date Picker */}
-                <div>
+          {/* Date Picker */}
+          <div>
             <Label>Date</Label>
             <Popover>
               <PopoverTrigger asChild>
@@ -293,13 +305,12 @@ export function AddSaleModal() {
             />
           </div>
 
-    
-
           <Button type="submit" className="w-full">
             Save Sale
           </Button>
         </form>
-      </DialogContent>
-    </Dialog>
+       </div>
+      </DrawerContent>
+    </Drawer>
   );
 }
