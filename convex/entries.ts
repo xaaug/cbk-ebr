@@ -48,7 +48,7 @@ export const getTodayTotals = query(async ({ db }) => {
     return createdAt >= today.getTime() && createdAt < tomorrow.getTime();
   });
 
-  // const totalSpent = todayEntries.reduce((sum, entry) => sum + entry.price * entry.qty, 0);
+  // const totalSpent = todayEntries.reduce((sum, entry) => su`m + entry.price * entry.qty, 0);
 
   const totalSpent = todayEntries
   .filter((entry) => entry.paid)

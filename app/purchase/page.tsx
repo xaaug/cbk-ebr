@@ -24,7 +24,6 @@ export default function Page() {
     date: today,
   });
 
-  console.log(totals)
 
   const isLoading = totals === undefined;
   const totalSpent = totals?.totalSpent ?? 0;

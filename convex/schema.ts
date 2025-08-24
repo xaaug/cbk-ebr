@@ -12,4 +12,28 @@ export default defineSchema({
   })
     .index("by_date", ["date"])
     .index("by_paid", ["paid"]),
+
+    sales: defineTable({
+      date: v.string(), // ISO date string
+      customerType: v.union(v.literal("individual"), v.literal("hotel")),
+      customerName: v.optional(v.string()), // only if individual
+      hotelId: v.optional(v.id("hotels")), // only if hotel
+      item: v.string(),
+      quantity: v.number(),
+      unitPrice: v.number(),
+      totalAmount: v.number(),
+      paymentStatus: v.union(
+        v.literal("paid"),
+        v.literal("pending"),
+        v.literal("partial")
+      ),
+      notes: v.optional(v.string()),
+      createdAt: v.string(),
+    }),
+  
+    hotels: defineTable({
+      name: v.string(),
+      contact: v.optional(v.string()),
+      createdAt: v.string(),
+    }),
 });
