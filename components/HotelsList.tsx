@@ -10,7 +10,6 @@ export default function HotelGrid() {
   const hotels = useQuery(api.hotels.getHotels);
 
   if (hotels === undefined) {
-    // Render skeletons instead of plain text
     return (
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
         {Array.from({ length: 8 }).map((_, i) => (

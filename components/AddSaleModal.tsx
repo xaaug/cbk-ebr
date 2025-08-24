@@ -29,6 +29,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { toast } from "sonner";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import type { Id } from "@/convex/_generated/dataModel";
@@ -59,6 +60,7 @@ export function AddSaleModal() {
   const [paymentStatus, setPaymentStatus] = useState<"paid" | "pending">(
     "pending",
   );
+  const [isSaving, setIsSaving] = useState(false);
   const [notes, setNotes] = useState("");
   const [date, setDate] = useState<Date | undefined>(new Date());
 
@@ -83,6 +85,12 @@ export function AddSaleModal() {
     }
   }, [customerType, hotelId, quantity, hotels]);
 
+  // Determine if the form is valid
+  const isFormValid = () => {
+    const validationErrors = validateForm();
+    return Object.keys(validationErrors).length === 0;
+  };
+
   const resetForm = () => {
     setCustomerType("hotel");
     setHotelId(undefined);
@@ -90,9 +98,10 @@ export function AddSaleModal() {
     setQuantity(0);
     setUnitPrice(0);
     setTotalAmount(0);
-    setPaymentStatus("paid");
+    setPaymentStatus("pending");
     setNotes("");
     setDate(new Date());
+    setIsSaving(false);
     setErrors({});
     setSubmitError(null);
   };
@@ -126,6 +135,8 @@ export function AddSaleModal() {
     }
 
     try {
+      setIsSaving(true);
+
       await addSale({
         customerType,
         hotelId: customerType === "hotel" ? hotelId : undefined,
@@ -141,10 +152,13 @@ export function AddSaleModal() {
       });
 
       resetForm();
+      toast.success("Sale added successfully!");
       setOpen(false);
     } catch (err) {
       setSubmitError("Failed to save sale. Please try again.");
       console.error(err);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -381,8 +395,12 @@ export function AddSaleModal() {
               <p className="text-sm text-red-600 text-center">{submitError}</p>
             )}
 
-            <Button type="submit" className="w-full">
-              Save Sale
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={!isFormValid() || isSaving}
+            >
+              {isSaving ? "Saving..." : "Save Sale"}
             </Button>
           </form>
         </div>
