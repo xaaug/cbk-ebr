@@ -102,3 +102,51 @@ export const deleteSale = mutation({
   },
 });
 
+
+export const getSaleDates = query({
+  handler: async (ctx) => {
+    const sales = await ctx.db.query("sales").order("desc").collect();
+    const datesSet = new Set(sales.map(s => s.date));
+    const dates = Array.from(datesSet).sort((a, b) => (a > b ? -1 : 1));
+    return dates;
+  },
+});
+
+export const getSalesByDate = query({
+  args: {
+    date: v.string(),
+  },
+  handler: async (ctx, { date }) => {
+    return await ctx.db
+      .query("sales")
+      .filter((q) => q.eq(q.field("date"), date))
+      .order("desc")
+      .collect();
+  },
+});
+
+export const markSalePaid = mutation({
+  args: {
+    saleId: v.id("sales"),
+  },
+  handler: async (ctx, { saleId }) => {
+    const sale = await ctx.db.get(saleId);
+    if (!sale) throw new Error("Sale not found");
+
+    // Only update if it's pending
+    if (sale.paymentStatus === "pending") {
+      await ctx.db.patch(saleId, { paymentStatus: "paid" });
+
+      // If this is a hotel sale, subtract from hotel balance
+      if (sale.customerType === "hotel" && sale.hotelId) {
+        const hotel = await ctx.db.get(sale.hotelId);
+        if (!hotel) throw new Error("Hotel not found");
+
+        const newBalance = (hotel.balance ?? 0) - sale.totalAmount;
+        await ctx.db.patch(sale.hotelId, { balance: newBalance });
+      }
+    }
+
+    return true;
+  },
+});
