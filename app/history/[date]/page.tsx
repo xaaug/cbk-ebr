@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { EntriesHistory } from "@/components/(history)/EntriesHistory";
 import DateSummary from "@/components/(history)/DateSummary";
-import SectionHeader from "@/components/SectionHeader";
+import HotelHeader from "@/components/HotelHeader";
 
 export default function HistoryDayPage() {
   const { date } = useParams();
@@ -12,7 +12,7 @@ export default function HistoryDayPage() {
   return (
     <>
       <div className="pb-30">
-        <SectionHeader title={decodedDate} />
+        <HotelHeader title={decodedDate} />
         <DateSummary date={decodedDate} />
         <EntriesHistory date={decodedDate} />
       </div>
