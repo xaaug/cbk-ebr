@@ -13,7 +13,7 @@ export default function Page() {
       <QuickActions />
       <div className="mb-24">
         <div className="flex justify-between items-center mt-6 mb-4">
-          <h2 className="text-lg font-serif font-semibold ">
+          <h2 className=" font-serif font-semibold ">
             Recent Sales
           </h2>
           <div className="flex justify-end">
