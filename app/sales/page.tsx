@@ -30,7 +30,7 @@ export default function SalesPage() {
     <>
       <div className="mb-24">
       <div className="flex justify-end mb-2">
-        <Button asChild variant="outline" size="sm">
+        <Button asChild variant="outline" size="sm" className="text-xs">
           <Link href="/history/sales">View History</Link>
         </Button>
       </div>

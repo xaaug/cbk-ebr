@@ -17,7 +17,7 @@ export default function Page() {
             Recent Sales
           </h2>
           <div className="flex justify-end">
-            <Button asChild variant="outline" size="sm">
+            <Button asChild variant="outline" size="sm" className="text-xs">
               <Link href="/sales">View All</Link>
             </Button>
           </div>

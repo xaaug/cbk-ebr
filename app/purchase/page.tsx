@@ -34,7 +34,7 @@ export default function Page() {
   return (
      <>
     <div className="flex justify-end mb-2">
-  <Button asChild variant="outline" size="sm">
+  <Button asChild variant="outline" size="sm" className="text-xs">
     <Link href="/history/purchases">
       View History
     </Link>
