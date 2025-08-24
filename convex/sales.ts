@@ -12,15 +12,32 @@ export const addSale = mutation({
     totalAmount: v.number(),
     paymentStatus: v.union(
       v.literal("paid"),
-      v.literal("pending"),
-      v.literal("partial")
+      v.literal("pending")
     ),
     notes: v.optional(v.string()),
     date: v.string(), // ISO date string
     createdAt: v.string(),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.insert("sales", args);
+    // 1. Insert the sale record
+    const saleId = await ctx.db.insert("sales", args);
+
+    // 2. If sale is for a hotel, update that hotel’s balance
+    if (args.customerType === "hotel" && args.hotelId) {
+      const hotel = await ctx.db.get(args.hotelId);
+      if (!hotel) throw new Error("Hotel not found");
+
+      // For hotels: balance increases by the totalAmount if not paid
+      let newBalance = hotel.balance ?? 0;
+      if (args.paymentStatus === "pending") {
+        newBalance += args.totalAmount;
+      }
+      // if "paid", balance stays the same
+
+      await ctx.db.patch(args.hotelId, { balance: newBalance });
+    }
+
+    return saleId;
   },
 });
 
