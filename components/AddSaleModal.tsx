@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Drawer,
   DrawerTrigger,
@@ -56,9 +56,9 @@ export function AddSaleModal() {
   const [quantity, setQuantity] = useState<number>(0);
   const [unitPrice, setUnitPrice] = useState<number>(0);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [paymentStatus, setPaymentStatus] = useState<
-    "paid" | "pending" | "partial"
-  >("paid");
+  const [paymentStatus, setPaymentStatus] = useState<"paid" | "pending">(
+    "pending",
+  );
   const [notes, setNotes] = useState("");
   const [date, setDate] = useState<Date | undefined>(new Date());
 
@@ -71,6 +71,17 @@ export function AddSaleModal() {
     setUnitPrice(price);
     setTotalAmount(qty * price);
   };
+
+  // auto-set unit price when hotel is selected
+  useEffect(() => {
+    if (customerType === "hotel" && hotelId && hotels) {
+      const selectedHotel = hotels.find((h) => h._id === hotelId);
+      if (selectedHotel) {
+        setUnitPrice(selectedHotel.chickenPrice);
+        setTotalAmount(quantity * selectedHotel.chickenPrice);
+      }
+    }
+  }, [customerType, hotelId, quantity, hotels]);
 
   const resetForm = () => {
     setCustomerType("hotel");
@@ -94,7 +105,7 @@ export function AddSaleModal() {
     if (!quantity || quantity <= 0) {
       newErrors.quantity = "Quantity must be greater than 0.";
     }
-    if (!unitPrice || unitPrice <= 450) {
+    if (customerType === "individual" && (!unitPrice || unitPrice <= 450)) {
       newErrors.unitPrice = "Unit price must be greater than 450.";
     }
     if (!date) {
@@ -177,7 +188,11 @@ export function AddSaleModal() {
                       : "border-primary-foreground bg-background hover:bg-accent hover:text-accent-foreground",
                   )}
                 >
-                  <RadioGroupItem value="hotel" id="hotel" className="sr-only" />
+                  <RadioGroupItem
+                    value="hotel"
+                    id="hotel"
+                    className="sr-only"
+                  />
                   Hotel
                 </Label>
 
@@ -202,13 +217,15 @@ export function AddSaleModal() {
 
             {/* Hotel or Individual */}
             {customerType === "hotel" ? (
-              <div>
+              <div className="w-full">
                 <Label>Hotel</Label>
-                <Select onValueChange={(val) => setHotelId(val as Id<"hotels">)}>
-                  <SelectTrigger>
+                <Select
+                  onValueChange={(val) => setHotelId(val as Id<"hotels">)}
+                >
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select hotel" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="w-full">
                     {hotels?.map((h) => (
                       <SelectItem key={h._id} value={h._id}>
                         {h.name}
@@ -273,51 +290,54 @@ export function AddSaleModal() {
               )}
             </div>
 
-            {/* Unit Price */}
-            <div>
-              <Label>Unit Price (KES)</Label>
-              <div className="flex gap-2 mb-4">
-                {QUICK_PRICES.map((p) => (
-                  <Button
-                    key={p}
-                    type="button"
-                    size="sm"
-                    variant={unitPrice === p ? "default" : "outline"}
-                    className="rounded-full px-4 py-1 text-sm transition font-sans border-primary-foreground"
-                    onClick={() => handleQtyPriceChange(quantity, p)}
-                  >
-                    {formatNumber(p)}
-                  </Button>
-                ))}
+            {/* Unit Price (only for individual sales) */}
+            {customerType === "individual" && (
+              <div>
+                <Label>Unit Price</Label>
+                <div className="flex gap-2 mb-4">
+                  {QUICK_PRICES.map((p) => (
+                    <Button
+                      key={p}
+                      type="button"
+                      size="sm"
+                      variant={unitPrice === p ? "default" : "outline"}
+                      className="rounded-full px-4 py-1 text-sm transition font-sans border-primary-foreground"
+                      onClick={() => handleQtyPriceChange(quantity, p)}
+                    >
+                      {formatNumber(p)}
+                    </Button>
+                  ))}
+                </div>
+                <Input
+                  type="number"
+                  value={unitPrice}
+                  onChange={(e) =>
+                    handleQtyPriceChange(quantity, Number(e.target.value))
+                  }
+                />
+                {errors.unitPrice && (
+                  <p className="text-sm text-red-600 mt-1">
+                    {errors.unitPrice}
+                  </p>
+                )}
               </div>
-              <Input
-                type="number"
-                value={unitPrice}
-                onChange={(e) =>
-                  handleQtyPriceChange(quantity, Number(e.target.value))
-                }
-              />
-              {errors.unitPrice && (
-                <p className="text-sm text-red-600 mt-1">{errors.unitPrice}</p>
-              )}
-            </div>
+            )}
 
             {/* Payment Status */}
-            <div>
+            <div className="w-full">
               <Label>Payment Status</Label>
               <Select
                 value={paymentStatus}
                 onValueChange={(val) =>
-                  setPaymentStatus(val as "paid" | "pending" | "partial")
+                  setPaymentStatus(val as "paid" | "pending")
                 }
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="paid">Paid</SelectItem>
+                <SelectContent className="w-full">
                   <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="partial">Partial</SelectItem>
+                  <SelectItem value="paid">Paid</SelectItem>
                 </SelectContent>
               </Select>
             </div>

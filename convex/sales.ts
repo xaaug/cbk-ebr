@@ -71,7 +71,6 @@ export const getTodaySales = query({
       .filter((q) => q.eq(q.field("date"), todayStr))
       .collect();
 
-
     return sales.reverse()
   },
 });

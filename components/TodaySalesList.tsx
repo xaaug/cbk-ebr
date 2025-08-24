@@ -1,11 +1,6 @@
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   AlertDialog,
@@ -23,6 +18,9 @@ import { X } from "lucide-react";
 export function TodaySalesList() {
   const sales = useQuery(api.sales.getTodaySales);
   const deleteSale = useMutation(api.sales.deleteSale);
+  const hotels = useQuery(api.hotels.getHotels) ?? [];
+
+  const hotelMap = Object.fromEntries(hotels.map((h) => [h._id, h]));
 
   const isLoading = sales === undefined;
 
@@ -44,28 +42,24 @@ export function TodaySalesList() {
             </Card>
           ))
         : sales.map((sale) => (
-            <Card
-              key={sale._id}
-              className="border border-gray-200 shadow-sm"
-            >
+            <Card key={sale._id} className="border border-gray-200 shadow-sm">
               <CardHeader className="flex justify-between items-center">
-                  <CardTitle className="text-base font-medium font-serif">
-                    {sale.customerType === "hotel"
-                      ? sale.hotelId
-                      : sale.customerName === ""
+                <CardTitle className="text-base font-medium font-serif">
+                  {sale.customerType === "hotel"
+                    ? (hotelMap[sale.hotelId as string]?.name ?? "Hotel")
+                    : sale.customerName?.trim() === ""
                       ? "Customer"
                       : sale.customerName}
-                  </CardTitle>
-                  <span className="text-gray-700 font-serif text-sm">
-                    {sale.totalAmount.toLocaleString()} KES
-                  </span>
-                
+                </CardTitle>
+
+                <span className="text-gray-700 font-serif text-sm">
+                  {sale.totalAmount.toLocaleString()} KES
+                </span>
               </CardHeader>
 
               <CardContent className="text-sm text-gray-600 flex justify-between">
                 {sale.quantity} × {sale.unitPrice.toLocaleString()}
                 {sale.notes && <div>Notes: {sale.notes}</div>}
-
                 {/* Delete modal */}
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
@@ -75,7 +69,9 @@ export function TodaySalesList() {
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle className="font-serif">Delete Sale?</AlertDialogTitle>
+                      <AlertDialogTitle className="font-serif">
+                        Delete Sale?
+                      </AlertDialogTitle>
                       <AlertDialogDescription>
                         This action cannot be undone. Are you sure you want to
                         permanently delete this sale?
