@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { EntriesHistory } from "@/components/(history)/EntriesHistory";
 import DateSummary from "@/components/(history)/DateSummary";
 import HotelHeader from "@/components/HotelHeader";
+import { PurchasesByPrice } from "@/components/PurchasesByPrice";
 
 export default function HistoryDayPage() {
   const { date } = useParams();
@@ -14,6 +15,7 @@ export default function HistoryDayPage() {
       <div className="pb-30">
         <HotelHeader title={decodedDate} />
         <DateSummary date={decodedDate} />
+        <PurchasesByPrice selectedDate={decodedDate} />
         <EntriesHistory date={decodedDate} />
       </div>
     </>

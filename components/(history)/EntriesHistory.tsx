@@ -35,6 +35,7 @@ export function EntriesHistory({ date }: { date?: string }) {
   const deleteEntry = useMutation(api.entries.deleteEntry);
 
   const entries = useQuery(api.entries.getEntriesByDate, { date: date || new Date().toISOString() });
+  console.log(entries)
 
   const isLoading = entries === undefined;
   // const isEmpty = entries?.length === 0;
