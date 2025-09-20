@@ -31,8 +31,8 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My PWA",
-  description: "A modern progressive web app",
+  title: "CbK EBR",
+  description: "Chicken Barrons",
   icons: {
     icon: "/convex.svg",
   },
