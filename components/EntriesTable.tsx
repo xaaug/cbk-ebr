@@ -31,6 +31,7 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
+import { InfoCard } from "./InfoCard";
 
 export function EntriesTable() {
   const entries = useQuery(api.entries.getTodayEntries, {});
@@ -88,16 +89,16 @@ export function EntriesTable() {
                     colSpan={4}
                     className="text-center text-muted-foreground py-6"
                   >
-                    No entries found for today.
+                   <InfoCard title="No Entries" message="There are no entries for today." />
                   </TableCell>
                 </TableRow>
               )
               : entries.map((entry) => (
                   <TableRow key={entry._id}>
-                    <TableCell className="font-mono font-semibold">
+                    <TableCell className="font-serif font-semibold">
                       {entry.qty}
                     </TableCell>
-                    <TableCell className="font-mono">{entry.price}</TableCell>
+                    <TableCell className="font-serif">{entry.price}</TableCell>
                     <TableCell>
                       <Button
                         variant="ghost"

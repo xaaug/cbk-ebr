@@ -61,12 +61,12 @@ export default function DatesCard() {
             </CardHeader>
             <CardContent className="space-y-1 text-sm text-muted-foreground font-display">
               <p>
-                <span className="font-sns font-medium text-foreground">Total Qty:</span>{" "}
-                {day.totalQty}
+                <span className="font-serif font-semibold text-foreground">Total Qty:</span>{" "}
+                <span className="font-serif text-lg font-semibold">{day.totalQty}</span>
               </p>
               <p >
-                <span className="font-display font-medium text-foreground">Total Price:</span>{" "}
-                <span className="uppercase text-xs">kes</span> {day.totalPrice}
+                <span className="font-serif font-semibold text-foreground">Total Price:</span>{" "}
+                <span className="uppercase text-sm">kes</span> <span className="font-serif text-lg font-semibold">{day.totalPrice}</span>
               </p>
              
             </CardContent>
