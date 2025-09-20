@@ -14,6 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { X } from "lucide-react";
+import { InfoCard } from "./InfoCard";
 
 export function TodaySalesList() {
   const sales = useQuery(api.sales.getTodaySales);
@@ -41,58 +42,58 @@ export function TodaySalesList() {
               </CardContent>
             </Card>
           ))
-        : sales.map((sale) => (
-            <Card key={sale._id} className="border border-gray-200 shadow-sm">
-              <CardHeader className="flex justify-between items-center">
-                <CardTitle className="text-base font-medium font-serif">
-                  {sale.customerType === "hotel"
-                    ? (hotelMap[sale.hotelId as string]?.name ?? "Hotel")
-                    : sale.customerName?.trim() === ""
-                      ? "Customer"
-                      : sale.customerName}
-                </CardTitle>
+        : sales.length > 0 ? sales.map((sale) => (
+          <Card key={sale._id} className="border border-gray-200 shadow-sm">
+            <CardHeader className="flex justify-between items-center">
+              <CardTitle className="text-base font-medium font-serif">
+                {sale.customerType === "hotel"
+                  ? (hotelMap[sale.hotelId as string]?.name ?? "Hotel")
+                  : sale.customerName?.trim() === ""
+                    ? "Customer"
+                    : sale.customerName}
+              </CardTitle>
 
-                <span className="text-gray-700 font-serif text-sm">
-                  {sale.totalAmount.toLocaleString()} KES
-                </span>
-              </CardHeader>
+              <span className="text-gray-700 font-serif text-sm">
+                {sale.totalAmount.toLocaleString()} KES
+              </span>
+            </CardHeader>
 
-              <CardContent className="text-sm text-gray-600 flex justify-between">
-                {sale.quantity} × {sale.unitPrice.toLocaleString()}
-                {sale.notes && <div>Notes: {sale.notes}</div>}
-                {/* Delete modal */}
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <button className="text-red-500 hover:text-red-500 transition">
-                      <X size={16} />
-                    </button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle className="font-serif">
-                        Delete Sale?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. Are you sure you want to
-                        permanently delete this sale?
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        className="bg-red-600 hover:bg-red-700"
-                        onClick={async () => {
-                          await deleteSale({ saleId: sale._id });
-                        }}
-                      >
-                        Delete
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </CardContent>
-            </Card>
-          ))}
+            <CardContent className="text-sm text-gray-600 flex justify-between">
+              {sale.quantity} × {sale.unitPrice.toLocaleString()}
+              {sale.notes && <div>Notes: {sale.notes}</div>}
+              {/* Delete modal */}
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <button className="text-red-500 hover:text-red-500 transition">
+                    <X size={16} />
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="font-serif">
+                      Delete Sale?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. Are you sure you want to
+                      permanently delete this sale?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-red-600 hover:bg-red-700"
+                      onClick={async () => {
+                        await deleteSale({ saleId: sale._id });
+                      }}
+                    >
+                      Delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </CardContent>
+          </Card>
+        )) : <InfoCard title="No Sales Today" message="There are no sales to display for today." />}
     </div>
   );
 }
