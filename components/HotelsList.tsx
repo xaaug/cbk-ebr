@@ -5,6 +5,7 @@ import { api } from "@/convex/_generated/api";
 import { Building2 } from "lucide-react";
 import CardButton from "./CardButton";
 import { Skeleton } from "@/components/ui/skeleton";
+import { InfoCard } from "./InfoCard";
 
 export default function HotelGrid() {
   const hotels = useQuery(api.hotels.getHotels);
@@ -20,7 +21,7 @@ export default function HotelGrid() {
   }
 
   if (hotels.length === 0) {
-    return <p className="text-muted-foreground mt-4">No hotels yet.</p>;
+    return <InfoCard title="No Hotels" message="There are no hotels to display." />;
   }
 
   return (
