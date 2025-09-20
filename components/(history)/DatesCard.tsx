@@ -59,14 +59,14 @@ export default function DatesCard() {
                 {formatDate(day.date)}
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-1 text-sm text-muted-foreground font-sans">
+            <CardContent className="space-y-1 text-sm text-muted-foreground font-display">
               <p>
-                <span className="font-sans font-medium text-foreground">Total Qty:</span>{" "}
+                <span className="font-sns font-medium text-foreground">Total Qty:</span>{" "}
                 {day.totalQty}
               </p>
-              <p>
-                <span className="font-sans font-medium text-foreground">Total Price:</span>{" "}
-                KES {day.totalPrice}
+              <p >
+                <span className="font-display font-medium text-foreground">Total Price:</span>{" "}
+                <span className="uppercase text-xs">kes</span> {day.totalPrice}
               </p>
              
             </CardContent>
