@@ -87,7 +87,7 @@ export function EntriesTable() {
                 <TableRow>
                   <TableCell
                     colSpan={4}
-                    className="text-center text-muted-foreground py-6"
+                    className=" text-muted-foreground py-6"
                   >
                    <InfoCard title="No Entries" message="There are no entries for today." />
                   </TableCell>
