@@ -14,7 +14,7 @@ const inter = Inter({
 
 const bebasNeue = Bebas_Neue({
   variable: "--font-bebas-neue",
-  weight: "400", // only one weight available
+  weight: "400",
   subsets: ["latin"],
 });
 
