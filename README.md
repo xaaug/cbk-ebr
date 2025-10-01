@@ -11,6 +11,7 @@ After the initial setup (<2 minutes) you'll have a working full-stack app using:
 
 ## Get started
 
+   
 If you just cloned this codebase and didn't use `npm create convex`, run:
 
 ```
