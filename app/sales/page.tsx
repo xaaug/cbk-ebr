@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { TodaySalesList } from "@/components/TodaySalesList";
 import { AddSaleForm } from "@/components/AddSaleForm";
-import { AddHotelSaleDrawer } from "@/components/ui/AddHotelSaleDrawer";
+import { AddHotelSaleDrawer } from "@/components/AddHotelSaleDrawer";
 
 export default function SalesPage() {
   const totals = useQuery(api.sales.getTodayTotals, {}); 
