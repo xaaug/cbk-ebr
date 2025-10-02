@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { AddSaleModal } from "@/components/AddSaleModal"; // we’ll build this below
 import { TodaySalesList } from "@/components/TodaySalesList";
+import { AddSaleForm } from "@/components/AddSaleForm";
 
 export default function SalesPage() {
   const totals = useQuery(api.sales.getTodayTotals, {}); 
@@ -85,7 +86,7 @@ export default function SalesPage() {
 
       {/* New Sale Button -> Modal */}
       <div className="w-full mt-5">
-        <AddSaleModal />
+        <AddSaleForm />
       </div>
 
 
