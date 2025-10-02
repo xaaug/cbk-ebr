@@ -8,7 +8,6 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
-import { AddSaleModal } from "@/components/AddSaleModal"; // we’ll build this below
 import { TodaySalesList } from "@/components/TodaySalesList";
 import { AddSaleForm } from "@/components/AddSaleForm";
 
