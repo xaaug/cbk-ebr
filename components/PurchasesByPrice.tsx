@@ -80,21 +80,14 @@ export function PurchasesByPrice({ selectedDate }: Props) {
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="price-breakdown">
           <AccordionTrigger className="text-base font-semibold">
-            Purchases by Price
-            <span className="ml-2 text-sm text-muted-foreground">
-              ({rows.length} price points, {totalChickens} chickens)
-            </span>
+            Price Points
+            
           </AccordionTrigger>
           <AccordionContent>
             <div className="mb-4 text-sm font-medium text-muted-foreground">
-              Total:{" "}
-              <span className="font-semibold text-foreground">
-                {totalChickens} chickens
-              </span>{" "}
-              •{" "}
-              <span className="font-semibold text-foreground">
-                {totalValue.toLocaleString()} KES
-              </span>
+              <span className="text-sm text-muted-foreground">
+              {rows.length} price points
+            </span> <br />
             </div>
             <div className="rounded-md border">
               <Table>
