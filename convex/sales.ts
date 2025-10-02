@@ -42,6 +42,44 @@ export const addSale = mutation({
 });
 
 
+export const addQuickSale = mutation({
+  args: {
+    qty: v.number(),
+    price: v.number(),
+    paid: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    const dateStr = `${yyyy}-${mm}-${dd}`;
+
+    const createdAt = new Date().toISOString();
+
+    // Build full sale args
+    const saleArgs = {
+      customerType: "individual" as const,
+      customerName: "Customer", // default for individuals
+      hotelId: undefined,
+      item: "chicken",
+      quantity: args.qty,
+      unitPrice: args.price,
+      totalAmount: args.qty * args.price,
+      paymentStatus: args.paid ? "paid" as const : "pending" as const,
+      notes: undefined,
+      date: dateStr,
+      createdAt,
+    };
+
+    // Insert directly
+    const saleId = await ctx.db.insert("sales", saleArgs);
+
+    return saleId;
+  },
+});
+
+
 export const getTodayTotals = query({
   args: {},
   handler: async (ctx) => {
