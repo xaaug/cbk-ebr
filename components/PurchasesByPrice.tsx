@@ -72,8 +72,8 @@ export function PurchasesByPrice({ selectedDate }: Props) {
     }))
     .sort((a, b) => a.price - b.price);
 
-  const totalChickens = rows.reduce((sum, row) => sum + row.qty, 0);
-  const totalValue = rows.reduce((sum, row) => sum + row.total, 0);
+  // const totalChickens = rows.reduce((sum, row) => sum + row.qty, 0);
+  // const totalValue = rows.reduce((sum, row) => sum + row.total, 0);
 
   return (
     <Card className="p-4 mt-6">
